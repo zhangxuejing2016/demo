@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Welcome</title>
+</head>
+<body>
+<h1 style="-moz-border-left-colors: #123;">ActiveMq test, Welcome!!!</h1>
+<h2><a href="producer">去发消息</a></h2>
+<h2><a href="receive">从队列中取一个消息</a></h2>
+</body>
+</html>

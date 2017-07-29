@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>JMS-Producer</title>
+</head>
+<body>
+<h1>JMS-Producer!!!</h1>
+<form action="onsend" method="post">
+
+    MessageText:<textarea name="message">${time}</textarea>
+
+    <input type="submit" value="提交" />
+</form>
+<h2><a href="/index">返回主页</a></h2>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>show all users</title>
+</head>
+
+
+<body>
+
+#set($hello="hello")
+    $hello
+#set($helloHa="helloHa")
+    $helloHa
+
+#set($list=["123","hello","嗯呐"])
+#foreach($ll in $list)
+    "呐呐---" + $ll <br>
+    $velocityCount </br>
+#end
+
+##<input name="inputName" type="text" placeholder="请输入数字" value="123"> </br>
+##
+###if($inputName > 10)
+##    输出： $helloHa
+###elseif($inputName < 10)
+##    输出：$hello
+###else
+##    输入数字：$inputName
+###end
+
+<table >
+    #foreach($user in $userList)
+        <tr >
+            <td >$user.username</td>
+            <td >$!user.age</td>
+        </tr>
+        $velocityCount </br>
+    #end
+</table>
+</body>
+</html>
