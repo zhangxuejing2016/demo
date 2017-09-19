@@ -9,6 +9,11 @@
 <body>
 <h1 style="-moz-border-left-colors: #123;">ActiveMq test, Welcome!!!</h1>
 <h2><a href="producer">去发消息</a></h2>
-<h2><a href="receive">从队列中取一个消息</a></h2>
+<h2><a href="receive">从队列中取一个消息</a></h2></br>
+<form name="submitMessage" action="/user/login">
+    Please enter your UserName：<input name="userName" align="middle" type="text"></br>
+    Please enter your Password：<input name="passWord" align="middle" type="text"></br>
+    <button type="submit">提交</button>
+</form>
 </body>
 </html>

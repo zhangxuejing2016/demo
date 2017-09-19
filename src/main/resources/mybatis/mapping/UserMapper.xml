@@ -125,4 +125,39 @@
         from test_user
     </select>
 
+    <select id="getTestUsers" resultType="com.xj.demo.bean.UserTestBean">
+        select username, password
+        from test_user
+        <where>
+        1=1
+        <if test="nameList != null" >
+            and username in
+            <foreach item="name" index="index" collection="nameList" open="(" separator="," close=")">
+                #{name}
+            </foreach>
+        </if>
+        <if test="passwordList != null" >
+            or password in
+            <foreach item="item" index="index" collection="passwordList" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        </where>
+    </select>
+
+    <select id="findByCondition" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from test_user
+        <where>
+        1=1
+        <if test="query.userName != null" >
+            and username = #{query.userName,jdbcType=VARCHAR}
+        </if>
+        <if test="query.passWord != null" >
+            and passWord = #{query.passWord,jdbcType=VARCHAR}
+        </if>
+        </where>
+    </select>
+
 </mapper>

@@ -1,4 +1,4 @@
-package com.xj.demo.domain;
+package com.xj.forMainMethod;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;

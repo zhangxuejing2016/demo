@@ -1,8 +1,10 @@
 package com.xj.demo.impl;
 
+import com.xj.demo.bean.UserTestBean;
 import com.xj.demo.dao.UserDao;
 import com.xj.demo.domain.User;
 import com.xj.demo.service.UserService;
+import com.xj.demo.vo.UserQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public List<User> findByCondition(UserQuery query) {
+        return this.userDao.findByCondition(query);
+    }
+
+    @Override
     public int insertSelective(User user) {
         return userDao.insertSelective(user);
     }
@@ -36,6 +43,11 @@ public class UserServiceImpl implements UserService{
     @Override
     public List<User> getAllUsers() {
         return userDao.getAllUsers();
+    }
+
+    @Override
+    public List<UserTestBean> getTestUsers(List<String> nameList, List<String> passwordList) {
+        return userDao.getTestUsers(nameList,passwordList);
     }
 
 }

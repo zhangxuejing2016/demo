@@ -1,6 +1,7 @@
 package com.xj.demo.domain;
 
 import com.alibaba.fastjson.JSON;
+import lombok.Data;
 import org.apache.log4j.Logger;
 import org.springframework.util.NumberUtils;
 
@@ -13,6 +14,7 @@ import java.util.HashMap;
 /**
  * Created by lenovo on 2016/10/25.
  */
+@Data
 public class User {
     private static final Logger log = Logger.getLogger(Action.class);
 
@@ -32,72 +34,7 @@ public class User {
 
     private boolean ha;
 
-    public Date getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
-    }
-
-    public boolean isHa() {
-        return ha;
-    }
-
-    public void setHa(boolean ha) {
-        this.ha = ha;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username == null ? null : username.trim();
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname == null ? null : nickname.trim();
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email == null ? null : email.trim();
-    }
-
-
-            public void setAge(Integer age) {
-                this.age = age;
-            }
-
-
-
-        public Integer getAge() {
-            return age;
-        }
+    private int count;
 
     public User(Long id, String username, String password, String nickname, String email) {
         this.id = id;
