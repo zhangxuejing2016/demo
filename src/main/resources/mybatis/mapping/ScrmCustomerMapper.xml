@@ -1,0 +1,1385 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xj.demo.dao.ScrmCustomerDao" >
+  <resultMap id="BaseResultMap" type="com.xj.demo.domain.ScrmCustomer" >
+    <id column="customer_id" property="customerId" jdbcType="BIGINT" />
+    <result column="open_id" property="openId" jdbcType="VARCHAR" />
+    <result column="wid" property="wid" jdbcType="VARCHAR" />
+    <result column="union_id" property="unionId" jdbcType="VARCHAR" />
+    <result column="merchant_id" property="merchantId" jdbcType="BIGINT" />
+    <result column="focus_source_type" property="focusSourceType" jdbcType="INTEGER" />
+    <result column="member_source_type" property="memberSourceType" jdbcType="INTEGER" />
+    <result column="focus_store_id" property="focusStoreId" jdbcType="BIGINT" />
+    <result column="member_store_id" property="memberStoreId" jdbcType="BIGINT" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="CHAR" />
+    <result column="birthday" property="birthday" jdbcType="DATE" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="district" property="district" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="CHAR" />
+    <result column="validated_mobile" property="validatedMobile" jdbcType="CHAR" />
+    <result column="mail" property="mail" jdbcType="VARCHAR" />
+    <result column="identity_card" property="identityCard" jdbcType="VARCHAR" />
+    <result column="education" property="education" jdbcType="VARCHAR" />
+    <result column="industry" property="industry" jdbcType="VARCHAR" />
+    <result column="hobby" property="hobby" jdbcType="VARCHAR" />
+    <result column="job" property="job" jdbcType="VARCHAR" />
+    <result column="income" property="income" jdbcType="VARCHAR" />
+    <result column="photo" property="photo" jdbcType="VARCHAR" />
+    <result column="register_time" property="registerTime" jdbcType="TIMESTAMP" />
+    <result column="meber_level" property="meberLevel" jdbcType="VARCHAR" />
+    <result column="rank_id" property="rankId" jdbcType="BIGINT" />
+    <result column="meber_card" property="meberCard" jdbcType="VARCHAR" />
+    <result column="score" property="score" jdbcType="BIGINT" />
+    <result column="available" property="available" jdbcType="REAL" />
+    <result column="meber_id" property="meberId" jdbcType="VARCHAR" />
+    <result column="card_time" property="cardTime" jdbcType="TIMESTAMP" />
+    <result column="sum_score" property="sumScore" jdbcType="BIGINT" />
+    <result column="meber_type" property="meberType" jdbcType="CHAR" />
+    <result column="is_focus" property="isFocus" jdbcType="INTEGER" />
+    <result column="custom_filed" property="customFiled" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="trade_count" property="tradeCount" jdbcType="BIGINT" />
+    <result column="last_trade_time" property="lastTradeTime" jdbcType="TIMESTAMP" />
+    <result column="avg_amount" property="avgAmount" jdbcType="REAL" />
+    <result column="amount" property="amount" jdbcType="REAL" />
+    <result column="growth" property="growth" jdbcType="BIGINT" />
+    <result column="cancel_focus_time" property="cancelFocusTime" jdbcType="TIMESTAMP" />
+    <result column="app_channel" property="appChannel" jdbcType="INTEGER" />
+
+  </resultMap>
+  <resultMap id="BasicInfoResultMap" type="com.weimob.o2o.scrm.mgr.bean.CustomerBasicInfoVo" >
+    <id column="customer_id" property="customerId" jdbcType="BIGINT" />
+    <result column="open_id" property="openId" jdbcType="VARCHAR" />
+    <result column="wid" property="wid" jdbcType="VARCHAR" />
+    <result column="union_id" property="unionId" jdbcType="VARCHAR" />
+    <result column="merchant_id" property="merchantId" jdbcType="BIGINT" />
+    <result column="focus_store_id" property="focusStoreId" jdbcType="BIGINT" />
+    <result column="member_store_id" property="memberStoreId" jdbcType="BIGINT" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="CHAR" />
+    <result column="gender" property="gender" jdbcType="CHAR" />
+    <result column="birthday" property="birthday" jdbcType="DATE" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="app_channel" property="appChannel" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <resultMap type="com.weimob.o2o.scrm.mgr.domain.ScrmCustomer" id="CustomerMap" extends="BaseResultMap" >
+  	<collection property="scrmTags"  column="{merchantId=merchant_id,customerId=customer_id}"  ofType="com.weimob.o2o.scrm.mgr.domain.ScrmTag" select="com.weimob.o2o.scrm.mgr.dao.ScrmTagMapper.selectTagForCustomer">
+  	</collection>
+  </resultMap>
+  
+  
+  
+  <sql id="BasicInfo_Column_List" >
+    customer_id, open_id, merchant_id, focus_store_id,member_store_id, nickname, name,mobile,gender,birthday,city,app_channel
+  </sql>
+  <sql id="Base_Column_List" >
+    customer_id, open_id,wid,union_id, merchant_id, focus_source_type,member_source_type,focus_store_id,member_store_id, nickname, name, gender, birthday, province,
+    city, district, address, mobile, validated_mobile, mail, identity_card, education, industry, hobby,
+    job, income, photo, register_time, meber_level,rank_id, meber_card, score, available, meber_id, 
+    card_time, sum_score, meber_type,is_focus, custom_filed, status, trade_count, 
+    last_trade_time, avg_amount, amount,growth,cancel_focus_time,app_channel
+  </sql>
+
+  <select id="getCustomerByWid" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from o2o_scrm_customer
+    where wid = #{wid,jdbcType=VARCHAR} and merchant_id = #{merchantId,jdbcType=BIGINT}
+    limit 1
+  </select>
+
+  <select id="queryCustomerListByOpenIds" resultMap="BaseResultMap">
+    select customer_id, open_id
+    from o2o_scrm_customer
+    where
+      open_id in
+        <foreach collection="openIds" item="openId" index="index"
+                           open="(" close=")" separator=",">
+          #{openId,jdbcType=VARCHAR}
+        </foreach>
+    and merchant_id = #{merchantId,jdbcType=BIGINT}
+  </select>
+  <select id="getCustomersByOpenIds" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from o2o_scrm_customer
+    where
+      open_id in
+        <foreach collection="openIds" item="openId" index="index"
+                           open="(" close=")" separator=",">
+          #{openId,jdbcType=VARCHAR}
+        </foreach>
+    and merchant_id = #{merchantId,jdbcType=BIGINT}
+  </select>
+
+  <select id="getCustomerByOpenId" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from o2o_scrm_customer
+    where open_id = #{openId,jdbcType=VARCHAR} and merchant_id = #{merchantId,jdbcType=BIGINT}
+    limit 1
+  </select>
+
+  <select id="getCustomerByMobile" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from o2o_scrm_customer
+    where mobile = #{mobile,jdbcType=VARCHAR} and merchant_id = #{merchantId,jdbcType=BIGINT}
+    limit 1
+  </select>
+
+  <select id="getAllCustomers" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from o2o_scrm_customer
+    
+  </select>
+ 
+   <select id="getCustomerByMerchantIdAndOpenId" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from o2o_scrm_customer
+    where merchant_id = #{merchantId,jdbcType=BIGINT} and open_id = #{openId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="getCustomerByMerchantIdAndMeberid" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from o2o_scrm_customer
+    where merchant_id = #{merchantId,jdbcType=BIGINT} and meber_id = #{meberid,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from o2o_scrm_customer
+    where customer_id = #{customerId,jdbcType=BIGINT}
+  </select>
+  
+  
+    <select id="getAllCustomerByMerchantId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from o2o_scrm_customer
+    where merchant_id = #{merchantId,jdbcType=BIGINT} order by customer_id asc
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from o2o_scrm_customer
+    where merchant_id = #{merchantId,jdbcType=BIGINT}
+    and customer_id = #{customerId,jdbcType=BIGINT}
+  </delete>
+ 
+ <insert id="batchInsert" parameterType="java.util.List" >
+  insert into o2o_scrm_customer (open_id, wid,union_id,merchant_id, focus_source_type,member_source_type,
+      focus_store_id,member_store_id, nickname, name, 
+      gender, birthday, province, 
+      city, district, address, 
+      mobile, validated_mobile, mail, identity_card,
+      education, industry, hobby, 
+      job, income, photo, register_time, 
+      meber_level,rank_id, meber_card, score, 
+      available, meber_id, 
+      card_time, sum_score, meber_type, is_focus,
+      custom_filed, status, trade_count, 
+      last_trade_time, avg_amount, amount,growth,cancel_focus_time,app_channel
+      )
+      values
+      <foreach  collection="list" item="item" index="index" separator=",">
+      (#{item.openId,jdbcType=VARCHAR},#{item.wid,jdbcType=VARCHAR},#{item.unionId,jdbcType=VARCHAR}, #{item.merchantId,jdbcType=BIGINT}, #{item.focusSourceType,jdbcType=INTEGER},#{item.memberSourceType,jdbcType=INTEGER},
+      #{item.focusStoreId,jdbcType=BIGINT},#{item.memberStoreId,jdbcType=BIGINT}, #{item.nickname,jdbcType=VARCHAR}, #{item.name,jdbcType=VARCHAR}, 
+      #{item.gender,jdbcType=CHAR}, #{item.birthday,jdbcType=DATE}, #{item.province,jdbcType=VARCHAR}, 
+      #{item.city,jdbcType=VARCHAR}, #{item.district,jdbcType=VARCHAR}, #{item.address,jdbcType=VARCHAR}, 
+      #{item.mobile,jdbcType=CHAR}, #{item.validatedMobile,jdbcType=CHAR},#{item.mail,jdbcType=VARCHAR}, #{item.identityCard,jdbcType=VARCHAR},
+      #{item.education,jdbcType=VARCHAR}, #{item.industry,jdbcType=VARCHAR}, #{item.hobby,jdbcType=VARCHAR}, 
+      #{item.job,jdbcType=VARCHAR}, #{item.income,jdbcType=VARCHAR}, #{item.photo,jdbcType=VARCHAR}, #{item.registerTime,jdbcType=TIMESTAMP}, 
+      #{item.meberLevel,jdbcType=VARCHAR},#{item.rankId,jdbcType=BIGINT}, #{item.meberCard,jdbcType=VARCHAR}, #{item.score,jdbcType=BIGINT}, 
+      #{item.available,jdbcType=REAL}, #{item.meberId,jdbcType=VARCHAR}, 
+      #{item.cardTime,jdbcType=TIMESTAMP}, #{item.sumScore,jdbcType=BIGINT}, #{item.meberType,jdbcType=CHAR}, #{item.isFocus,jdbcType=INTEGER},
+      #{item.customFiled,jdbcType=VARCHAR}, #{item.status,jdbcType=INTEGER}, #{item.tradeCount,jdbcType=BIGINT}, 
+      #{item.lastTradeTime,jdbcType=TIMESTAMP}, #{item.avgAmount,jdbcType=REAL}, #{item.amount,jdbcType=REAL},#{item.growth,jdbcType=BIGINT},#{item.cancelFocusTime,jdbcType=TIMESTAMP}, #{item.appChannel,jdbcType=INTEGER}
+      )
+      
+      </foreach>
+ </insert>
+ 
+ 
+ 
+  <insert id="insert" parameterType="com.weimob.o2o.scrm.mgr.domain.ScrmCustomer" >
+    insert into o2o_scrm_customer (customer_id, open_id, wid,union_id,merchant_id,  focus_source_type,member_source_type,
+      focus_store_id,member_store_id, nickname, name, 
+      gender, birthday, province, 
+      city, district, address, 
+      mobile, validated_mobile, mail, identity_card,
+      education, industry, hobby, 
+      job, income, photo, register_time, 
+      meber_level,rank_id, meber_card, score, 
+      available, meber_id, 
+      card_time, sum_score, meber_type, is_focus,
+      custom_filed, status, trade_count, 
+      last_trade_time, avg_amount, amount,growth,cancel_focus_time,app_channel
+      )
+    values (#{customerId,jdbcType=BIGINT}, #{openId,jdbcType=VARCHAR}, #{wid,jdbcType=VARCHAR},#{unionId,jdbcType=VARCHAR},#{merchantId,jdbcType=BIGINT},  #{focusSourceType,jdbcType=INTEGER},#{memberSourceType,jdbcType=INTEGER},
+      #{focusStoreId,jdbcType=BIGINT},#{memberStoreId,jdbcType=BIGINT}, #{nickname,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{gender,jdbcType=CHAR}, #{birthday,jdbcType=DATE}, #{province,jdbcType=VARCHAR}, 
+      #{city,jdbcType=VARCHAR}, #{district,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{mobile,jdbcType=CHAR}, #{item.validatedMobile,jdbcType=CHAR},#{mail,jdbcType=VARCHAR}, #{identityCard,jdbcType=VARCHAR},
+      #{education,jdbcType=VARCHAR}, #{industry,jdbcType=VARCHAR}, #{hobby,jdbcType=VARCHAR}, 
+      #{job,jdbcType=VARCHAR}, #{income,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR}, #{registerTime,jdbcType=TIMESTAMP}, 
+      #{meberLevel,jdbcType=VARCHAR},#{item.rankId,jdbcType=BIGINT}, #{meberCard,jdbcType=VARCHAR}, #{score,jdbcType=BIGINT}, 
+      #{available,jdbcType=REAL}, #{meberId,jdbcType=VARCHAR}, 
+      #{cardTime,jdbcType=TIMESTAMP}, #{sumScore,jdbcType=BIGINT}, #{meberType,jdbcType=CHAR}, #{isFocus,jdbcType=INTEGER},
+      #{customFiled,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{tradeCount,jdbcType=BIGINT}, 
+      #{lastTradeTime,jdbcType=TIMESTAMP}, #{avgAmount,jdbcType=REAL}, #{amount,jdbcType=REAL},#{growth,jdbcType=BIGINT},#{cancelFocusTime,jdbcType=TIMESTAMP}, #{appChannel,jdbcType=INTEGER}
+      )
+  </insert>
+ 
+  <insert id="insertSelective" parameterType="com.weimob.o2o.scrm.mgr.domain.ScrmCustomer" >
+  <selectKey resultType="java.lang.Long" keyProperty="customerId" order="AFTER" >
+      SELECT LAST_INSERT_ID() AS customerId
+    </selectKey>
+    insert into o2o_scrm_customer
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+      <if test="openId != null" >
+        open_id,
+      </if>
+      <if test="wid != null" >
+        wid,
+      </if>
+      <if test="unionId != null" >
+        union_id,
+      </if>
+      <if test="merchantId != null" >
+        merchant_id,
+      </if>
+      <if test="focusSourceType != null" >
+        focus_source_type,
+      </if>
+      <if test="memberSourceType != null" >
+        member_source_type,
+      </if>
+      <if test="focusStoreId != null" >
+        focus_store_id,
+      </if>
+      <if test="memberStoreId != null" >
+        member_store_id,
+      </if>
+      <if test="nickname != null" >
+        nickname,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="birthday != null" >
+        birthday,
+      </if>
+      <if test="province != null" >
+        province,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="district != null" >
+        district,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="validatedMobile != null" >
+        validated_mobile,
+      </if>
+      <if test="mail != null" >
+        mail,
+      </if>
+      <if test="identityCard != null" >
+        identity_card,
+      </if>
+      <if test="education != null" >
+        education,
+      </if>
+      <if test="industry != null" >
+        industry,
+      </if>
+      <if test="hobby != null" >
+        hobby,
+      </if>
+      <if test="job != null" >
+        job,
+      </if>
+      <if test="income != null" >
+        income,
+      </if>
+      <if test="photo != null" >
+        photo,
+      </if>
+      <if test="registerTime != null" >
+        register_time,
+      </if>
+      <if test="meberLevel != null" >
+        meber_level,
+      </if>
+      <if test="rankId != null" >
+        rank_id,
+      </if>
+      <if test="meberCard != null" >
+        meber_card,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+      <if test="available != null" >
+        available,
+      </if>
+      <if test="meberId != null" >
+        meber_id,
+      </if>
+      <if test="cardTime != null" >
+        card_time,
+      </if>
+      <if test="sumScore != null" >
+        sum_score,
+      </if>
+      <if test="meberType != null" >
+        meber_type,
+      </if>
+      <if test="isFocus != null" >
+        is_focus,
+      </if>
+      <if test="customFiled != null" >
+        custom_filed,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="tradeCount != null" >
+        trade_count,
+      </if>
+      <if test="lastTradeTime != null" >
+        last_trade_time,
+      </if>
+      <if test="avgAmount != null" >
+        avg_amount,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="growth != null" >
+        growth,
+      </if>
+      <if test="cancelFocusTime != null" >
+        cancel_focus_time,
+      </if>
+      <if test="appChannel != null" >
+        app_channel,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="customerId != null" >
+        #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="openId != null" >
+        #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="wid != null" >
+        #{wid,jdbcType=VARCHAR},
+      </if>
+      <if test="unionId != null" >
+        #{unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantId != null" >
+        #{merchantId,jdbcType=BIGINT},
+      </if>
+      <if test="focusSourceType != null" >
+        #{focusSourceType,jdbcType=INTEGER},
+      </if>
+      <if test="memberSourceType != null" >
+        #{memberSourceType,jdbcType=INTEGER},
+      </if>
+      <if test="focusStoreId != null" >
+        #{focusStoreId,jdbcType=BIGINT},
+      </if>
+      <if test="memberStoreId != null" >
+        #{memberStoreId,jdbcType=BIGINT},
+      </if>
+      <if test="nickname != null" >
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=CHAR},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=DATE},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null" >
+        #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=CHAR},
+      </if>
+      <if test="validatedMobile != null" >
+        #{validatedMobile,jdbcType=CHAR},
+      </if>
+      <if test="mail != null" >
+        #{mail,jdbcType=VARCHAR},
+      </if>
+      <if test="identityCard != null" >
+        #{identityCard,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null" >
+        #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="hobby != null" >
+        #{hobby,jdbcType=VARCHAR},
+      </if>
+      <if test="job != null" >
+        #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="income != null" >
+        #{income,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null" >
+        #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="registerTime != null" >
+        #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="meberLevel != null" >
+        #{meberLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="rankId != null" >
+        #{rankId,jdbcType=BIGINT},
+      </if>
+      <if test="meberCard != null" >
+        #{meberCard,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=BIGINT},
+      </if>
+      <if test="available != null" >
+        #{available,jdbcType=REAL},
+      </if>
+      <if test="meberId != null" >
+        #{meberId,jdbcType=VARCHAR},
+      </if>
+      <if test="cardTime != null" >
+        #{cardTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sumScore != null" >
+        #{sumScore,jdbcType=BIGINT},
+      </if>
+      <if test="meberType != null" >
+        #{meberType,jdbcType=CHAR},
+      </if>
+      <if test="isFocus != null" >
+        #{isFocus,jdbcType=INTEGER},
+      </if>
+      <if test="customFiled != null" >
+        #{customFiled,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="tradeCount != null" >
+        #{tradeCount,jdbcType=BIGINT},
+      </if>
+      <if test="lastTradeTime != null" >
+        #{lastTradeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="avgAmount != null" >
+        #{avgAmount,jdbcType=REAL},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=REAL},
+      </if>
+      <if test="growth != null" >
+        #{growth,jdbcType=BIGINT},
+      </if>
+      <if test="cancelFocusTime != null" >
+        #{cancel_focus_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appChannel != null" >
+        #{appChannel,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByMerchantIdandOpenId" parameterType="com.weimob.o2o.scrm.mgr.domain.ScrmCustomer" >
+    update o2o_scrm_customer
+    <set >
+      <if test="openId != null" >
+        open_id = #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="wid != null" >
+        wid = #{wid,jdbcType=VARCHAR},
+      </if>
+      <if test="unionId != null" >
+        union_id = #{unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantId != null" >
+        merchant_id = #{merchantId,jdbcType=BIGINT},
+      </if>
+      <if test="focusSourceType != null" >
+        focus_source_type = #{focusSourceType,jdbcType=INTEGER},
+      </if>
+      <if test="memberSourceType != null" >
+        member_source_type = #{memberSourceType,jdbcType=INTEGER},
+      </if>
+      <if test="focusStoreId != null" >
+        focus_store_id = #{focusStoreId,jdbcType=BIGINT},
+      </if>
+      <if test="memberStoreId != null" >
+        member_store_id = #{memberStoreId,jdbcType=BIGINT},
+      </if>
+      <if test="nickname != null" >
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        gender = #{gender,jdbcType=CHAR},
+      </if>
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=DATE},
+      </if>
+      <if test="province != null" >
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null" >
+        district = #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=CHAR},
+      </if>
+      <if test="validatedMobile != null" >
+        validated_mobile = #{validatedMobile,jdbcType=CHAR},
+      </if>
+      <if test="mail != null" >
+        mail = #{mail,jdbcType=VARCHAR},
+      </if>
+      <if test="identityCard != null" >
+        identity_card = #{identityCard,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        education = #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null" >
+        industry = #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="hobby != null" >
+        hobby = #{hobby,jdbcType=VARCHAR},
+      </if>
+      <if test="job != null" >
+        job = #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="income != null" >
+        income = #{income,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null" >
+        photo = #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="registerTime != null" >
+        register_time = #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="meberLevel != null" >
+        meber_level = #{meberLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="rankId != null" >
+        rank_id = #{rankId,jdbcType=BIGINT},
+      </if>
+      <if test="meberCard != null" >
+        meber_card = #{meberCard,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=BIGINT},
+      </if>
+      <if test="available != null" >
+        available = #{available,jdbcType=REAL},
+      </if>
+      <if test="meberId != null" >
+        meber_id = #{meberId,jdbcType=VARCHAR},
+      </if>
+      <if test="cardTime != null" >
+        card_time = #{cardTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sumScore != null" >
+        sum_score = #{sumScore,jdbcType=BIGINT},
+      </if>
+      <if test="meberType != null" >
+        meber_type = #{meberType,jdbcType=CHAR},
+      </if>
+      <if test="isFocus != null" >
+        is_focus = #{isFocus,jdbcType=INTEGER},
+      </if>
+      <if test="customFiled != null" >
+        custom_filed = #{customFiled,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="tradeCount != null" >
+        trade_count = #{tradeCount,jdbcType=BIGINT},
+      </if>
+      <if test="lastTradeTime != null" >
+        last_trade_time = #{lastTradeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="avgAmount != null" >
+        avg_amount = #{avgAmount,jdbcType=REAL},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=REAL},
+      </if>
+      <if test="growth != null" >
+        growth = #{growth,jdbcType=BIGINT},
+      </if>
+      <if test="cancelFocusTime != null" >
+        cancel_focus_time = #{cancelFocusTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appChannel != null" >
+        app_channel = #{appChannel,jdbcType=INTEGER},
+      </if>
+    </set>
+    where     merchant_id = #{merchantId,jdbcType=BIGINT} and
+        open_id = #{openId,jdbcType=VARCHAR}
+      
+      
+      
+  </update>
+  
+  
+  
+  
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.weimob.o2o.scrm.mgr.domain.ScrmCustomer" >
+    update o2o_scrm_customer
+    <set >
+      <if test="openId != null" >
+        open_id = #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="wid != null" >
+        wid = #{wid,jdbcType=VARCHAR},
+      </if>
+      <if test="unionId != null" >
+        union_id = #{unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantId != null" >
+        merchant_id = #{merchantId,jdbcType=BIGINT},
+      </if>
+      <if test="focusSourceType != null" >
+        focus_source_type = #{focusSourceType,jdbcType=INTEGER},
+      </if>
+      <if test="memberSourceType != null" >
+        member_source_type = #{memberSourceType,jdbcType=INTEGER},
+      </if>
+      <if test="focusStoreId != null" >
+        focus_store_id = #{focusStoreId,jdbcType=BIGINT},
+      </if>
+      <if test="memberStoreId != null" >
+        member_store_id = #{memberStoreId,jdbcType=BIGINT},
+      </if>
+      <if test="nickname != null" >
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        gender = #{gender,jdbcType=CHAR},
+      </if>
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=DATE},
+      </if>
+      <if test="province != null" >
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null" >
+        district = #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=CHAR},
+      </if>
+      <if test="validatedMobile != null" >
+        validated_mobile = #{validatedMobile,jdbcType=CHAR},
+      </if>
+      <if test="mail != null" >
+        mail = #{mail,jdbcType=VARCHAR},
+      </if>
+      <if test="identityCard != null" >
+        identity_card = #{identityCard,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        education = #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null" >
+        industry = #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="hobby != null" >
+        hobby = #{hobby,jdbcType=VARCHAR},
+      </if>
+      <if test="job != null" >
+        job = #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="income != null" >
+        income = #{income,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null" >
+        photo = #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="registerTime != null" >
+        register_time = #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="meberLevel != null" >
+        meber_level = #{meberLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="rankId != null" >
+        rank_id = #{rankId,jdbcType=BIGINT},
+      </if>
+      <if test="meberCard != null" >
+        meber_card = #{meberCard,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=BIGINT},
+      </if>
+      <if test="available != null" >
+        available = #{available,jdbcType=REAL},
+      </if>
+      <if test="meberId != null" >
+        meber_id = #{meberId,jdbcType=VARCHAR},
+      </if>
+      <if test="cardTime != null" >
+        card_time = #{cardTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sumScore != null" >
+        sum_score = #{sumScore,jdbcType=BIGINT},
+      </if>
+      <if test="meberType != null" >
+        meber_type = #{meberType,jdbcType=CHAR},
+      </if>
+      <if test="isFocus != null" >
+        is_focus = #{isFocus,jdbcType=INTEGER},
+      </if>
+      <if test="customFiled != null" >
+        custom_filed = #{customFiled,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="tradeCount != null" >
+        trade_count = #{tradeCount,jdbcType=BIGINT},
+      </if>
+      <if test="lastTradeTime != null" >
+        last_trade_time = #{lastTradeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="avgAmount != null" >
+        avg_amount = #{avgAmount,jdbcType=REAL},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=REAL},
+      </if>
+      <if test="growth != null" >
+        growth = #{growth,jdbcType=BIGINT},
+      </if>
+      <if test="cancelFocusTime != null" >
+        cancel_focus_time = #{cancelFocusTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appChannel != null" >
+        app_channel = #{appChannel,jdbcType=INTEGER},
+      </if>
+    </set>
+    where customer_id = #{customerId,jdbcType=BIGINT}
+  </update>
+  <update id="batchUpdate" >
+  <foreach  collection="list" item="item" index="index" separator=";">
+    update ${tableName}
+    <set >
+      <if test="item.openId != null" >
+        open_id = #{item.openId,jdbcType=VARCHAR},
+      </if>
+      <if test="item.merchantId != null" >
+        merchant_id = #{item.merchantId,jdbcType=BIGINT},
+      </if>
+      <if test="item.focusSourceType != null" >
+        focus_source_type = #{item.focusSourceType,jdbcType=INTEGER},
+      </if>
+      <if test="item.memberSourceType != null" >
+        member_source_type = #{item.memberSourceType,jdbcType=INTEGER},
+      </if>
+      <if test="item.focusStoreId != null" >
+        focus_store_id = #{item.focusStoreId,jdbcType=BIGINT},
+      </if>
+      <if test="item.memberStoreId != null" >
+        member_store_id = #{item.memberStoreId,jdbcType=BIGINT},
+      </if>
+      <if test="item.nickname != null" >
+        nickname = #{item.nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="item.name != null" >
+        name = #{item.name,jdbcType=VARCHAR},
+      </if>
+      <if test="item.gender != null" >
+        gender = #{item.gender,jdbcType=CHAR},
+      </if>
+      <if test="item.birthday != null" >
+        birthday = #{item.birthday,jdbcType=DATE},
+      </if>
+      <if test="item.province != null" >
+        province = #{item.province,jdbcType=VARCHAR},
+      </if>
+      <if test="item.city != null" >
+        city = #{item.city,jdbcType=VARCHAR},
+      </if>
+      <if test="item.district != null" >
+        district = #{item.district,jdbcType=VARCHAR},
+      </if>
+      <if test="item.address != null" >
+        address = #{item.address,jdbcType=VARCHAR},
+      </if>
+      <if test="item.mobile != null" >
+        mobile = #{item.mobile,jdbcType=CHAR},
+      </if>
+      <if test="item.validatedMobile != null" >
+        validated_mobile = #{item.validatedMobile,jdbcType=CHAR},
+      </if>
+      <if test="item.mail != null" >
+        mail = #{item.mail,jdbcType=VARCHAR},
+      </if>
+      <if test="item.identityCard != null" >
+        identity_card = #{item.identityCard,jdbcType=VARCHAR},
+      </if>
+      <if test="item.education != null" >
+        education = #{item.education,jdbcType=VARCHAR},
+      </if>
+      <if test="item.industry != null" >
+        industry = #{item.industry,jdbcType=VARCHAR},
+      </if>
+      <if test="item.hobby != null" >
+        hobby = #{item.hobby,jdbcType=VARCHAR},
+      </if>
+      <if test="item.job != null" >
+        job = #{item.job,jdbcType=VARCHAR},
+      </if>
+      <if test="item.income != null" >
+        income = #{item.income,jdbcType=VARCHAR},
+      </if>
+      <if test="item.photo != null" >
+        photo = #{item.photo,jdbcType=VARCHAR},
+      </if>
+      <if test="item.registerTime != null" >
+        register_time = #{item.registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="item.meberLevel != null" >
+        meber_level = #{item.meberLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="item.rankId != null" >
+        rank_id = #{item.rankId,jdbcType=BIGINT},
+      </if>
+      <if test="item.meberCard != null" >
+        meber_card = #{item.meberCard,jdbcType=VARCHAR},
+      </if>
+      <if test="item.score != null" >
+        score = #{item.score,jdbcType=BIGINT},
+      </if>
+      <if test="item.available != null" >
+        available = #{item.available,jdbcType=REAL},
+      </if>
+      <if test="item.meberId != null" >
+        meber_id = #{item.meberId,jdbcType=VARCHAR},
+      </if>
+      <if test="item.cardTime != null" >
+        card_time = #{item.cardTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="item.sumScore != null" >
+        sum_score = #{item.sumScore,jdbcType=BIGINT},
+      </if>
+      <if test="item.meberType != null" >
+        meber_type = #{item.meberType,jdbcType=CHAR},
+      </if>
+      <if test="item.isFocus != null" >
+        is_focus = #{item.isFocus,jdbcType=INTEGER},
+      </if>
+      <if test="item.customFiled != null" >
+        custom_filed = #{item.customFiled,jdbcType=VARCHAR},
+      </if>
+      <if test="item.status != null" >
+        status = #{item.status,jdbcType=INTEGER},
+      </if>
+      <if test="item.tradeCount != null" >
+        trade_count = #{item.tradeCount,jdbcType=BIGINT},
+      </if>
+      <if test="item.lastTradeTime != null" >
+        last_trade_time = #{item.lastTradeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="item.avgAmount != null" >
+        avg_amount = #{item.avgAmount,jdbcType=REAL},
+      </if>
+      <if test="item.amount != null" >
+        amount = #{item.amount,jdbcType=REAL},
+      </if>
+      <if test="item.growth != null" >
+        growth = #{item.growth,jdbcType=BIGINT},
+      </if>
+      <if test="item.cancelFocusTime != null" >
+        cancel_focus_time = #{item.cancelFocusTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="item.appChannel != null" >
+        app_channel = #{item.appChannel,jdbcType=INTEGER},
+      </if>
+    </set>
+    where customer_id = #{item.customerId,jdbcType=BIGINT}
+    </foreach>
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.weimob.o2o.scrm.mgr.domain.ScrmCustomer" >
+    update o2o_scrm_customer
+    set open_id = #{openId,jdbcType=VARCHAR},
+      merchant_id = #{merchantId,jdbcType=BIGINT},
+      focus_source_type = #{focusSourceType,jdbcType=INTEGER},
+      member_source_type = #{memberSourceType,jdbcType=INTEGER},
+      focus_store_id = #{focusStoreId,jdbcType=BIGINT},
+      member_store_id = #{memberStoreId,jdbcType=BIGINT},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=CHAR},
+      birthday = #{birthday,jdbcType=DATE},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      district = #{district,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=CHAR},
+      validated_mobile = #{validatedMobile,jdbcType=CHAR},
+      mail = #{mail,jdbcType=VARCHAR},
+      identity_card = #{identityCard,jdbcType=VARCHAR},
+      education = #{education,jdbcType=VARCHAR},
+      industry = #{industry,jdbcType=VARCHAR},
+      hobby = #{hobby,jdbcType=VARCHAR},
+      job = #{job,jdbcType=VARCHAR},
+      income = #{income,jdbcType=VARCHAR},
+      photo = #{photo,jdbcType=VARCHAR},
+      register_time = #{registerTime,jdbcType=TIMESTAMP},
+      meber_level = #{meberLevel,jdbcType=VARCHAR},
+      rank_id = #{rankId,jdbcType=BIGINT},
+      meber_card = #{meberCard,jdbcType=VARCHAR},
+      score = #{score,jdbcType=BIGINT},
+      available = #{available,jdbcType=REAL},
+      meber_id = #{meberId,jdbcType=VARCHAR},
+      card_time = #{cardTime,jdbcType=TIMESTAMP},
+      sum_score = #{sumScore,jdbcType=BIGINT},
+      meber_type = #{meberType,jdbcType=CHAR},
+      is_focus = #{isFocus,jdbcType=INTEGER},
+      custom_filed = #{customFiled,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      trade_count = #{tradeCount,jdbcType=BIGINT},
+      last_trade_time = #{lastTradeTime,jdbcType=TIMESTAMP},
+      avg_amount = #{avgAmount,jdbcType=REAL},
+      amount = #{amount,jdbcType=REAL},
+      growth = #{growth,jdbcType=BIGINT},
+      cancel_focus_time = #{cancelFocusTime,jdbcType=TIMESTAMP}
+      app_channel = #{appChannel,jdbcType=INTEGER}
+    where customer_id = #{customerId,jdbcType=BIGINT}
+  </update>
+  <select id="getCustomerManageList" parameterType="com.weimob.o2o.scrm.mgr.bean.SearchCustomerManageBean"
+          resultMap="CustomerMap">
+      select 
+       
+	      osc.customer_id,
+	      osc.open_id,
+	      osc.merchant_id,
+	      osc.focus_source_type,
+	      osc.member_source_type,
+	      osc.focus_store_id,
+	      osc.member_store_id,
+	      osc.nickname,
+	      osc.trade_count,
+	      osc.last_trade_time,
+	      osc.avg_amount,
+	      osc.amount,
+	      osc.status,
+	      osc.meber_level,
+	      osc.rank_id,
+	      osc.meber_type,
+	      osc.is_focus,
+          osc.app_channel
+      from 
+	      o2o_scrm_customer osc 
+	  <if test ="label != null">
+	  left join 
+	      o2o_scrm_customer_tag osct
+      on 
+          osc.customer_id = osct.customer_id
+      </if>
+	  where osc.merchant_id= #{aid}
+	 
+   	  <if test="tradeCountMin !=null">
+   	  	and	osc.trade_count >= #{tradeCountMin}
+   	  </if>
+   	  <if test="tradeCountMax !=null">
+   	  	and	osc.trade_count &lt;= #{tradeCountMax}
+   	  </if>
+   	  
+   	  <if test="amountMin !=null">
+   	  	and	osc.amount>=#{amountMin}
+   	  </if>
+   	  <if test="amountMax !=null">
+   	  	and	osc.amount &lt;= #{amountMax}
+   	  </if>
+   	  	<if test ="level != null and allMemberLevel !='on'">
+   	  		and osc.meber_level in (${level})
+   	  	</if>
+   	  	<if test ="allMemberLevel =='on'">
+   	  		and osc.meber_type =2
+   	  	</if>
+   	  	<if test ="label != null">
+   	  		and osct.tag_id in (${label})
+   	  	</if>
+   	  	
+   	  	<if test ="registerTime !=null and registerTime!=366 and registerTime!=0">
+   	  		and osc.register_time &gt; #{registerTime2Date}
+   	  	</if>
+   	  	<if test ="registerTime ==366">
+   	  		and osc.register_time &lt; #{registerTime2Date}
+   	  	</if>
+   	  	
+   	  	<if test ="gender !=null and gender !='0'">
+   	  		and osc.gender = #{gender}
+   	  	</if>
+   	  	<if test ="provinces !=null and provinces!=''">
+   	  		and osc.province = #{provinces}
+   	  	</if>
+   	  	<if test ="city !=null and city!=''">
+   	  		and osc.city = #{city}
+   	  	</if>
+   	  	<if test ="district !=null and district !=''">
+   	  		and osc.district = #{district}
+   	  	</if>
+   	  	
+   	  	<if test ="age !=null and age !=0">
+   	  		and osc.birthday between #{age2BrithdayMin} and #{age2BrithdayMax}
+   	  	</if>
+   	  	
+   	  	<if test ="lastTradeTime !=null and lastTradeTime !=0">
+   	  		and osc.last_trade_time between #{lastTradeTimeMin} and #{lastTradeTimeMax}
+   	  	</if>
+   	  	<if test ="keyword !=null and keyword !=''">
+   	  		and osc.customer_id in (${ids})
+   	  	</if>
+   	  
+   	  	 <if test ="label != null"> 
+     		 group by osc.customer_id
+	     </if>
+	  order by ${orderBy} ${order} , nickname asc 
+      
+   </select>
+  <select id="getCustomerList" parameterType="com.weimob.o2o.scrm.mgr.bean.SearchCustomerManageBean"
+          resultMap="CustomerMap">
+      select 
+        osc.customer_id,
+        osc.open_id,
+        osc.merchant_id,
+        osc.focus_source_type,
+        osc.member_source_type,
+        osc.focus_store_id,
+        osc.member_store_id,
+        osc.nickname,
+        osc.name,
+        osc.gender,
+        osc.birthday,
+        osc.province,
+        osc.city,
+        osc.district,
+        osc.address,
+        osc.mobile,
+        osc.validated_mobile,
+        osc.mail,
+        osc.identity_card,
+        osc.education,
+        osc.industry,
+        osc.hobby,
+        osc.job,
+        osc.income,
+        osc.photo,
+        osc.register_time,
+        osc.meber_level,
+        osc.rank_id,
+        osc.meber_card,
+        osc.score,
+        osc.available,
+        osc.meber_id,
+        osc.card_time,
+        osc.sum_score,
+        osc.meber_type,
+        osc.custom_filed,
+        osc.status,
+        osc.trade_count,
+        osc.last_trade_time,
+        osc.avg_amount,
+        osc.amount,
+	    osc.app_channel
+      from 
+	      o2o_scrm_customer osc 
+	  <if test ="label != null">
+	  left join 
+	      o2o_scrm_customer_tag osct
+      on 
+          osc.customer_id = osct.customer_id
+      </if>
+	  where osc.merchant_id= #{aid} 
+	 
+   	  <if test="tradeCountMin !=null">
+   	  	and	osc.trade_count >= #{tradeCountMin}
+   	  </if>
+   	  <if test="tradeCountMax !=null">
+   	  	and	osc.trade_count &lt;= #{tradeCountMax}
+   	  </if>
+   	  
+   	  <if test="amountMin !=null">
+   	  	and	osc.amount>=#{amountMin}
+   	  </if>
+   	  <if test="amountMax !=null">
+   	  	and	osc.amount &lt;= #{amountMax}
+   	  </if>
+   	  	<if test ="level != null and allMemberLevel !='on'">
+   	  		and osc.meber_level in (${level})
+   	  	</if>
+   	  	<if test ="allMemberLevel =='on'">
+   	  		and osc.meber_type =2
+   	  	</if>
+   	  	<if test ="label != null">
+   	  		and osct.tag_id in (${label})
+   	  	</if>
+   	  	
+   	  	<if test ="registerTime !=null and registerTime!=366 and registerTime!=0">
+   	  		and osc.register_time &gt; #{registerTime2Date}
+   	  	</if>
+   	  	<if test ="registerTime ==366">
+   	  		and osc.register_time &lt; #{registerTime2Date}
+   	  	</if>
+   	  	
+   	  	<if test ="gender !=null and gender !='0'">
+   	  		and osc.gender = #{gender}
+   	  	</if>
+   	  	<if test ="provinces !=null and provinces!=''">
+   	  		and osc.province = #{provinces}
+   	  	</if>
+   	  	<if test ="city !=null and city!=''">
+   	  		and osc.city = #{city}
+   	  	</if>
+   	  	<if test ="district !=null and district !=''">
+   	  		and osc.district = #{district}
+   	  	</if>
+   	  	
+   	  	<if test ="age !=null and age !=0">
+   	  		and osc.birthday between #{age2BrithdayMin} and #{age2BrithdayMax}
+   	  	</if>
+   	  	
+   	  	<if test ="lastTradeTime !=null and lastTradeTime !=0">
+   	  		and osc.last_trade_time between #{lastTradeTimeMin} and #{lastTradeTimeMax}
+   	  	</if>
+   	  	<if test ="keyword !=null and keyword !=''">
+   	  		and osc.customer_id in (${ids})
+   	  	</if>
+   	  
+   	  <if test ="label != null">	 
+      group by osc.customer_id
+	  </if>
+   	  	<if test ="orderBy !=null and order !=null">
+	  order by ${orderBy} ${order} , nickname asc 
+   	  	</if>
+      
+   </select>
+   <select id="getCustomerCount" resultType="java.lang.Long" parameterType="java.lang.Long">
+   select count(1) from o2o_scrm_customer
+   where merchant_id = #{merchantId,jdbcType=BIGINT} 
+   </select>
+   <select id="getCustomerCountByGender" resultType="java.lang.Long" >
+   select count(1) from o2o_scrm_customer
+   where merchant_id = #{merchantId,jdbcType=BIGINT} and gender=#{gender,jdbcType=CHAR}
+   </select>
+ <select id="getCustomersByNickName" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from o2o_scrm_customer
+    where merchant_id = #{merchantId,jdbcType=BIGINT}  
+    	<if test ="nickname !=null">
+    and nickname = #{nickname,jdbcType=VARCHAR}
+    </if>
+    <if test ="nickname ==null">
+    and nickname is null
+    </if>
+    
+  </select>
+ <select id="getOldScrmCustomerData" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from o2o_scrm_customer
+  </select>
+
+<select id="getAllCustomerOpenIdandMemberTypeByMerchantId" resultType="com.weimob.o2o.scrm.mgr.bean.CustomerVO">
+ select 
+    open_id,meber_type,customer_id,nickname,mobile,is_focus
+    from o2o_scrm_customer
+    where merchant_id = #{merchantId,jdbcType=BIGINT}
+   
+</select>
+
+<select id="findByBirthday" resultMap="BaseResultMap">
+  select
+  <include refid="Base_Column_List"/>
+  from o2o_scrm_customer
+  WHERE merchant_id = #{merchantId, jdbcType=BIGINT} AND birthday <![CDATA[<>]]> '1900-01-01' AND DATE_FORMAT(birthday, '%m%d') = DATE_FORMAT(#{birthday, jdbcType=TIMESTAMP}, '%m%d')  ORDER BY customer_id ASC
+</select>
+
+  <select id="countByMemberLevel" resultType="java.lang.Integer">
+    select count(1)
+    from o2o_scrm_customer
+    WHERE
+      merchant_id = #{merchantId, jdbcType=BIGINT}
+    AND meber_level = #{memberLevel, jdbcType=VARCHAR}
+    
+    AND status in (1, 2)
+  </select>
+
+  <select id="getAllCustomerIds" resultType="java.lang.Long">
+    SELECT
+      customer_id
+      from o2o_scrm_customer
+      where merchant_id = #{merchantId,jdbcType=BIGINT}
+  </select>
+
+  <select id="queryDetailsByCustomerIds" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from o2o_scrm_customer
+    where
+    customer_id in
+    <foreach collection="customerIds" item="customerId" index="index"
+             open="(" close=")" separator=",">
+      #{customerId,jdbcType=BIGINT}
+    </foreach>
+    and merchant_id = #{merchantId,jdbcType=BIGINT}
+  </select>
+
+  <select id="getCustomerByMemberCard" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from o2o_scrm_customer
+    where
+    merchant_id = #{merchantId,jdbcType=BIGINT}
+    and meber_card = #{memberCard,jdbcType=VARCHAR}
+  </select>
+
+  <select id="checkMobileExist" resultType="java.lang.Integer">
+    select count(1)
+    from o2o_scrm_customer
+    where
+    merchant_id = #{merchantId,jdbcType=BIGINT}
+    and mobile = #{mobile,jdbcType=VARCHAR}
+    limit 1
+  </select>
+  <select id="getAllCustomersByMobile" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from o2o_scrm_customer
+    where
+    merchant_id = #{merchantId,jdbcType=BIGINT}
+    and mobile = #{mobile,jdbcType=VARCHAR}
+  </select>
+  <select id="getByMobileAndOpenIdIsNull" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from o2o_scrm_customer
+    where merchant_id = #{merchantId,jdbcType=BIGINT}
+    and mobile = #{mobile,jdbcType=VARCHAR}
+    and open_id is null
+    and meber_type = 1
+  </select>
+  
+  <select id="getCustomerBasicInfoVoByOpenId" resultMap="BasicInfoResultMap">
+    select 
+    <include refid="BasicInfo_Column_List" />
+    from o2o_scrm_customer
+    where  merchant_id = #{merchantId,jdbcType=BIGINT} and open_id = #{openId,jdbcType=VARCHAR}
+    limit 1
+  </select>
+  <select id="getCustomerBasicInfoVoByOpenIds" resultMap="BasicInfoResultMap">
+    select 
+	<include refid="BasicInfo_Column_List" />
+    from 
+    	o2o_scrm_customer
+    where
+        merchant_id = #{merchantId,jdbcType=BIGINT} 
+     and 
+        open_id in
+	        <foreach collection="openIds" item="openId" index="index"
+	                           open="(" close=")" separator=",">
+	          #{openId,jdbcType=VARCHAR}
+	        </foreach>
+  </select>
+
+  <update id="updateForDeleteMemberCard" >
+    update o2o_scrm_customer
+    set member_source_type = null
+    , member_store_id = null
+
+    , meber_level =null
+    , rank_id = null
+    , card_time = null
+    , meber_type = 1
+    , status = 3
+    where merchant_id = #{merchantId,jdbcType=BIGINT} and meber_card is not null
+  </update>
+    <select id="getCustomerForPage" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from o2o_scrm_customer
+    where merchant_id = #{merchantId,jdbcType=BIGINT} and customer_id > #{lastCustomerId,jdbcType=BIGINT} 
+    order by customer_id asc limit #{pageSize,jdbcType=INTEGER}
+  </select>
+  <select id="getCustomerForPageWidEmpty" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from o2o_scrm_customer
+    where merchant_id = #{merchantId,jdbcType=BIGINT} and open_id is not null and wid ='' and  customer_id > #{lastCustomerId,jdbcType=BIGINT}
+    order by customer_id asc limit #{pageSize,jdbcType=INTEGER}
+  </select>
+</mapper>

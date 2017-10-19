@@ -10,7 +10,7 @@ import java.util.*;
  */
 public class TestForTime {
     public static void main(String[] args) {
-        Date birthday = new Date();
+        Date birthday = DateUtils.getDateFromStr(DateUtils.dateToString(new Date(),"MM-dd"),"MM-dd");
         Calendar start = new GregorianCalendar();
         start.setTime(birthday);
         start.set(Calendar.HOUR_OF_DAY, 0);
@@ -28,7 +28,9 @@ public class TestForTime {
         Object startObject = start;
         Object endObject = end;
         System.out.println(start.getTime());
+        System.out.println(start.getTimeInMillis());
         System.out.println(end.getTime());
+        System.out.println(end.getTimeInMillis());
         System.out.println(birthday);
         System.out.println(JSON.toJSONString(startObject));
         System.out.println(JSON.toJSONString(endObject));
