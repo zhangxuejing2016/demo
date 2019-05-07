@@ -1,11 +1,18 @@
 package com.xj.forMainMethod;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.google.common.base.Function;
 import com.xj.constant.CardTemplateStatusEnum;
+import com.xj.demo.domain.CopyUser;
 import com.xj.demo.domain.User;
+import com.xj.o2o.MemberFilterBean;
+import com.xj.o2o.MemberRollFilterQuery;
 import com.xj.utils.DateUtils;
+import org.apache.commons.lang.math.NumberUtils;
 
 import javax.jws.soap.SOAPBinding;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -15,75 +22,67 @@ import java.util.*;
  */
 public class ForTest {
 
+
     public static void main(String[] args) {
 
-        User u = new User();
-        u.setUsername("xuejing");
-        Map<String,String> map = new HashMap<String, String>();
-        map.put("1","111");
-        map.put("2",null);
-        for(Map.Entry<String,String> vo : map.entrySet()){
-            System.out.println(vo.getValue().toString());
-        }
-        String str = " ";
-        System.out.println(str.substring(0,str.length()-1));
 
-//        try {
-////            System.out.println(DateUtils.strToDate("2017-08-07 20:10:10","yyyy-MM-dd HH:mm:ss").before(new Date()));
-////            System.out.println(DateUtils.strToDate("2017-08-07 20:10:10","yyyy-MM-dd HH:mm:ss"));
-//            List<String> list = new ArrayList<String>();
-//            List<String> list1 = new ArrayList<String>();
-//            List<String> list2 = new ArrayList<String>();
-//            list1.add("a");
-//            list2.add("b");
-//            list.addAll(list1);
-//            list.addAll(list2);
-//            System.out.println(JSON.toJSON(list));
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        int num = 2147483647;
-//        long x = num + 2L;
-//        System.out.println(x);
-//        String date = "2017-06-19";
-//        Date birthday = DateUtils.getDateFromStr(date, "yyyy-MM-dd");
-//        System.out.println(DateUtils.formatDate(birthday, "MM-dd"));
-//        System.out.println(DateUtils.getDateFromStr(DateUtils.dateToString(DateUtils.getDateFromStr(date, "yyyy-MM-dd"), "MM-dd"), "MM-dd"));
-//        System.out.println(DateUtils.getDateFromStr(DateUtils.dateToString(new Date(), "yyyy-MM-dd"),"yyyy-MM-dd"));
-//        System.out.println(DateUtils.getDateFromStr(date,"yyyy-MM-dd"));
-
-//        Integer aa = 1;
-//        System.out.println(aa == CardTemplateStatusEnum.ACTIVE_PUBLISHED.getCode());
-
-//        Map map = new HashMap();
-//        List<User> list = new ArrayList<User>();
-//
-//        User user01 = new User();
-//        user01.setUsername("name001");
-//        user01.setPassword("123");
-//
-//        User user02 = new User();
-//        user02.setUsername("name002");
-//        user02.setPassword("456");
-//
-//        map.put(user01,user01);
-//        map.put(user02,user02);
-//        System.out.println(JSON.toJSONString(map));
-//
-//        list.add(user01);
-//        for(User u : list){
-//            map.remove(u);
-//        }
-//
-//        System.out.println(JSON.toJSONString(map));
-
-//        User user01 = new User();
-//        user01.setUsername("xiaoq");
-//        User user02 = new User();
-//        user02.setUsername("daq");
-//        Map<String,User> map = new HashMap<String, User>();
-//        map.put("1",user01);
-//        map.put("1",user02);
-//        System.out.println(JSON.toJSON(map));
     }
+
+    class Person{
+        public static String name = "xj";
+
+    }
+
+    public static Integer[] bigNumberMultiply(int[] arr1, int[] arr2) {
+        ArrayList<Integer> result = new ArrayList<>();  //中间求和的结果
+
+        //arr2 逐位与arr1相乘
+        for (int i = arr2.length - 1; i >= 0; i--) {
+            int carry = 0;
+            ArrayList<Integer> singleList = new ArrayList<>();
+
+            //arr2 逐位单次乘法的结果
+            for (int j = arr1.length - 1; j >= 0; j--) {
+                int r = arr2[i] * arr1[j] + carry;
+                int digit = r % 10;
+                carry = r / 10;
+
+                singleList.add(digit);
+            }
+            if (carry != 0) {
+                singleList.add(carry);
+            }
+
+            int resultCarry = 0, count = 0;
+            int k = 0;
+            int l = 0;
+            int offset = arr2.length - 1 - i;       //加法的偏移位
+            ArrayList<Integer> middleResult = new ArrayList<>();
+
+            //arr2每位乘法的结果与上一轮的求和结果相加，从右向左做加法并进位
+            while (k < singleList.size() || l < result.size()) {
+                int kv = 0, lv = 0;
+                if (k < singleList.size() && count >= offset) {
+                    kv = singleList.get(k++);
+                }
+                if (l < result.size()) {
+                    lv = result.get(l++);
+                }
+                int sum = resultCarry + kv + lv;
+                middleResult.add(sum % 10);     //相加结果从右向左（高位到低位）暂时存储，最后需要逆向输出
+                resultCarry = sum / 10;
+                count++;
+            }
+            if (resultCarry != 0) {
+                middleResult.add(resultCarry);
+            }
+            result.clear();
+            result = middleResult;
+        }
+
+        Collections.reverse(result);    //逆向输出结果
+        return result.toArray(new Integer[result.size()]);
+    }
+
 }
+

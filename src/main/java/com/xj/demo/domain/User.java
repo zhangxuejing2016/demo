@@ -1,12 +1,16 @@
 package com.xj.demo.domain;
 
 import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.Data;
 import org.apache.log4j.Logger;
 import org.springframework.util.NumberUtils;
 
 import javax.swing.*;
 import java.io.*;
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -36,6 +40,8 @@ public class User {
 
     private int count;
 
+    private BigDecimal money;
+
     public User(Long id, String username, String password, String nickname, String email) {
         this.id = id;
         this.username = username;
@@ -48,9 +54,9 @@ public class User {
     }
 
     public static void main(String[] args) {
-        User u = new User();
-        u.setNickname("ss");
-        System.out.println(u.isHa());
+//        User u = new User();
+//        u.setNickname("ss");
+//        System.out.println(String.valueOf(JSON.toJSONString(u)));
 
 //        //从键盘读入一行字符
 //        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));

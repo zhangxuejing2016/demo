@@ -63,22 +63,28 @@ public class practices {
     }
 
     public static void main(String[] args) throws ParseException {
-        Date birthday = DateUtils.getDateFromStr(DateUtils.dateToString(new Date(),"MM-dd"),"MM-dd");
-        Calendar start = new GregorianCalendar();
-        start.setTime(birthday);
-        start.set(Calendar.HOUR_OF_DAY, 0);
-        start.set(Calendar.MINUTE, 0);
-        start.set(Calendar.SECOND, 0);
-        start.set(Calendar.MILLISECOND, 0);
-
-        Calendar end = new GregorianCalendar();
-        end.setTime(birthday);
-        end.add(Calendar.DAY_OF_MONTH, 3);
-        end.set(Calendar.HOUR_OF_DAY, 23);
-        end.set(Calendar.MINUTE, 59);
-        end.set(Calendar.SECOND, 59);
-        System.out.println(start.getTime());
-        System.out.println(end.getTime());
+//        Date birthday = DateUtils.getDateFromStr(DateUtils.dateToString(new Date(),"MM-dd"),"MM-dd");
+//        Calendar start = new GregorianCalendar();
+//        start.setTime(birthday);
+//        start.set(Calendar.HOUR_OF_DAY, 0);
+//        start.set(Calendar.MINUTE, 0);
+//        start.set(Calendar.SECOND, 0);
+//        start.set(Calendar.MILLISECOND, 0);
+//
+//        Calendar end = new GregorianCalendar();
+//        end.setTime(birthday);
+//        end.add(Calendar.DAY_OF_MONTH, 3);
+//        end.set(Calendar.HOUR_OF_DAY, 23);
+//        end.set(Calendar.MINUTE, 59);
+//        end.set(Calendar.SECOND, 59);
+//        System.out.println(start.getTime());
+//        System.out.println(end.getTime());
+        Date date = new Date();
+        Date date1 = null;
+        System.out.println(date);
+        System.out.println(JSON.toJSONString(date));
+        System.out.println(date1);
+        System.out.println(Long.valueOf(JSON.toJSONString(date)));
     }}
 
 //        String refDateStr = "2017-05-03";
